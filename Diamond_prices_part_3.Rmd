@@ -1,0 +1,44 @@
+---
+author: "Audrey Ekuban"
+date: "3 April 2016"
+output: word_document
+---
+
+```{r}
+library(ggplot2)
+data("diamonds")
+summary(diamonds)
+str(diamonds)
+#?diamonds
+```
+
+```{r}
+ggplot(aes(x=price, fill = cut), data=diamonds) + 
+  geom_histogram() +
+  facet_wrap(~color) + 
+  scale_fill_brewer(type = 'qual') +
+  scale_x_log10()
+```
+
+```{r}
+ggplot(aes(x = table, y = price), data = diamonds) +
+  geom_point() +
+  geom_point(aes(color = cut)) +
+  scale_color_brewer(type='qual') +
+  coord_cartesian(xlim = c(50,80)) +
+  scale_x_discrete(breaks = seq(50,80,2))
+```
+
+![Figure1](figure_1.png)
+
+```{r}
+
+diamonds$volume = diamonds$x*diamonds$y*diamonds$z
+
+#plot scatter of price vs volume colored by clarity
+ggplot(aes(x = volume, y = price), data = diamonds) +
+  geom_point(aes(color = clarity)) +
+  scale_color_brewer(type = 'div') +
+  coord_cartesian(xlim=c(0,quantile(diamonds$volume,0.99))) +
+  scale_y_log10()
+```
